@@ -1,0 +1,14 @@
+# 通用命令服务
+uint8 command_type
+# 命令类型定义（重新规划）:
+# 1 = MOVE_TARGET            data[0]=目标区(1=QRCode,2=Turntable,3=PlaceAndPick,4=Buffer,5=Start)
+# 2 = DISPLAY_TASK_ORDER     data[]=任务序列（如 3,2,1 -> [3,2,1]）
+# 3 = TURNTABLE_ROTATE       无 payload
+# 4 = GRIPPER_CLOSE          无 payload
+# 5 = GRIPPER_OPEN           无 payload
+
+float32[] data    # 根据命令类型携带不同数据
+bool enable       # 保留字段，当前仅占位
+---
+bool success
+string message

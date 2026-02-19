@@ -1,0 +1,57 @@
+<root BTCPP_format="4">
+  <BehaviorTree ID="Turntable">
+    <Sequence name="PickPlace_All">
+
+      <Script code="grasp_order_work := task_order_str"/>
+
+      <ForceSuccess>
+        <Repeat num_cycles="-1" name="Loop_GraspOrder">
+          <Sequence name="PickPlace_One">
+
+          <Action ID="PopNextTargetId"
+                  order_in="{grasp_order_work}"
+                  target_id="{target_id}"
+                  order_out="{grasp_order_work}"/>
+
+          <RetryUntilSuccessful num_attempts="-1">
+            <Sequence name="RetryUntilTargetFound">
+              <Action ID="RequestCylindersWithRetry"
+                      cylinders_out="{cylinders}"/>
+
+              <Action ID="SelectTargetCylinder"
+                      target_id="{target_id}"
+                      cylinders_in="{cylinders}"
+                      target_out="{target}"
+                      object_id="{object_id}"
+                      all_valid_out="{valid_cylinders}"/>
+            </Sequence>
+          </RetryUntilSuccessful>
+
+          <Action ID="AddCollisionCylinders"
+                  cylinders_in="{valid_cylinders}"/>
+
+          <Action ID="PlanWithFallback"
+                  target_in="{target}"/>
+          <Action ID="CloseGripper"/>
+          <Action ID="AttachObject"
+                  object_id="{object_id}"/>
+
+          <Action ID="PlanWithFallback"
+                  pose_in="{fix_pose}"/>
+          <Action ID="OpenGripper"/>
+          <Action ID="DetachObject"
+                  object_id="{object_id}"/>
+
+          <Action ID="GoHome"/>
+          <Action ID="RotateTurntable"/>
+
+          <Action ID="RemoveAllCollisionObjects"
+                  cylinders_in="{valid_cylinders}"/>
+
+          </Sequence>
+        </Repeat>
+      </ForceSuccess>
+
+    </Sequence>
+  </BehaviorTree>
+</root>

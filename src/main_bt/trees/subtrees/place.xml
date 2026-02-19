@@ -1,0 +1,59 @@
+<root BTCPP_format="4">
+  <BehaviorTree ID="Place">
+    <Sequence name="Place_From_Buffer">
+
+      <!-- 1) 视觉获取三个放置点坐标，必须全部有效 -->
+      <Action ID="RequestPlacePointsAllValid"
+              points_out="{place_points}"/>
+
+      <!-- 调试：固定顺序 -->
+      <Script code="place_order_work := '1,2,3'"/>
+      <!-- <Script code="place_order_work := task_order_str"/> -->
+
+      <ForceSuccess>
+        <Repeat num_cycles="-1" name="Loop_Place_Three">
+          <Sequence name="Place_One">
+
+            <!-- 从顺序中弹出目标，并选出对应放置点 -->
+            <Action ID="PopAndSelectPlaceTarget"
+                    order_in="{place_order_work}"
+                    order_out="{place_order_work}"
+                    points_in="{place_points}"
+                    target_out="{place_target}"
+                    target_id="{target_id}"
+                    object_id="{place_object_id}"/>
+
+            <!-- 从车上固定存放位抓取物块 -->
+            <Action ID="AddCollisionCylinders"
+                    target_id="{target_id}"
+                    fix_pose="{fix_pose}"
+                    cylinder_out="{onboard_cylinder}"
+                    object_id_out="{onboard_object_id}"/>
+            <Action ID="ExecPresetTarget"/>
+            <Action ID="CloseGripper"/>
+            <Action ID="AttachObject" object_id="{onboard_object_id}"/>
+            <Action ID="ExecPresetHome"/>
+
+            <!-- 放置到对应点（ -->
+            <Action ID="PlanWithFallback"
+                    target_in="{place_target}"/>
+            <Action ID="OpenGripper"/>
+            <Action ID="DetachObject" object_id="{onboard_object_id}"/>
+            <Action ID="GoHome"/>
+
+            <!-- 转盘旋转 -->
+            <Action ID="RotateTurntable"/>
+
+          </Sequence>
+        </Repeat>
+      </ForceSuccess>
+
+      
+
+      <!-- 清理所有障碍物 -->
+      <Action ID="RemoveAllCollisionObjects"
+              cylinders_in="{place_points}"/>
+
+    </Sequence>
+  </BehaviorTree>
+</root>

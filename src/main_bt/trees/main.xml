@@ -1,0 +1,60 @@
+<root BTCPP_format="4" main_tree_to_execute="Main">
+  <include path="subtrees/turntable.xml"/>
+  <include path="subtrees/place.xml"/>
+  <include path="subtrees/place_and_pick.xml"/>
+
+  <BehaviorTree ID="Main">
+    <Fallback name="Main_With_ErrorHandling">
+      <Sequence name="Main_Flow">
+        <!-- 启动与初始化 -->
+        <Action ID="StartRobot"/>
+        <Action ID="InitAllConfigs"/>
+
+        <!-- 二维码区域 -->
+        <Action ID="GoQRCodeArea"/>
+        <Action ID="StartQRCodeVision"/>
+        <Action ID="WaitArriveQRCodeArea"/>
+        <Action ID="ScanQRCode"
+                task_order_out="{task_order_str}"/>
+        <Action ID="DisplayQRCode"
+                task_order_in="{task_order_str}"/>
+        <!-- <Script code="task_order_str := '1,2,3'"/> -->
+        <!-- 转盘区域 -->
+        <Action ID="GoTurntableArea"/>
+        <Action ID="StartTurntableVision"/>
+        <Action ID="WaitArriveTurntableArea"/>
+        <SubTree ID="Turntable"
+                 fix_pose="{fix_pose}"
+                 task_order_str="{task_order_str}"/>
+
+        <!-- 粗加工（PlaceAndPick）区域 -->
+        <Action ID="GoPlaceAndPickArea"/>
+        <Action ID="StopTurntableVision"/>
+        <Action ID="StartPlaceAndPickVision"/>
+        <Action ID="WaitArrivePlaceAndPickArea"/>
+        <SubTree ID="PlaceAndPick"
+                 fix_pose="{fix_pose}"
+                 onboard_target="{onboard_target}"
+                 task_order_str="{task_order_str}"/>
+
+        <!-- 暂存区域 -->
+        <Action ID="GoBufferArea"/>
+        <Action ID="StopPlaceAndPickVision"/>
+        <Action ID="StartBufferVision"/>
+        <Action ID="WaitArriveBufferArea"/>
+        <SubTree ID="Place"
+                 fix_pose="{fix_pose}"
+                 task_order_str="{task_order_str}"/>
+
+        <!-- 返回出发点 -->
+        <Action ID="GoStartArea"/>
+        <Action ID="WaitArriveStartArea"/>
+        <Action ID="StopBufferVision"/>
+      </Sequence>
+
+      <ForceFailure>
+        <Action ID="KillAllProcesses"/>
+      </ForceFailure>
+    </Fallback>
+  </BehaviorTree>
+</root>

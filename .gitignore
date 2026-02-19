@@ -1,0 +1,30 @@
+# Colcon / ROS 2 build outputs
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# C/C++ build artifacts
+*.o
+*.a
+*.so
+*.out
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+*~
+*.swp
+
+# Test / cache
+.pytest_cache/
+.colcon*
+
+# Logs
+*.log
+

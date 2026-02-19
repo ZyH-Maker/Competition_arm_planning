@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+  说明：main_bt 包的元信息文件，用于声明依赖与构建方式。
+-->
+<package format="3">
+  <name>main_bt</name>
+  <version>0.1.0</version>
+  <description>BehaviorTree main package with shared nodes and subtrees</description>
+  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <license>BSD</license>
+
+  <!-- 构建工具 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- 构建依赖 / 运行依赖 -->
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>shape_msgs</depend>
+  <depend>robot_interfaces</depend>
+  <depend>behaviortree_cpp</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>moveit_visual_tools</depend>
+  <depend>moveit_msgs</depend>
+  <depend>moveit_core</depend>
+  <depend>ament_index_cpp</depend>
+
+  <!-- Eigen3 在 ROS2 中通过 eigen3_cmake_module 提供 -->
+  <build_depend>eigen3_cmake_module</build_depend>
+  <exec_depend>eigen3_cmake_module</exec_depend>
+
+  <!-- Launch 依赖（用于启动文件） -->
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>moveit_configs_utils</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
