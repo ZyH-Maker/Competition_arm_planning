@@ -7,8 +7,8 @@
               points_out="{place_points}"/>
 
       <!-- 调试：固定顺序 -->
-      <Script code="place_order_work := '1,2,3'"/>
-      <!-- <Script code="place_order_work := task_order_str"/> -->
+      <!-- <Script code="place_order_work := '1,2,3'"/> -->
+      <Script code="place_order_work := task_order_str"/>
 
       <ForceSuccess>
         <Repeat num_cycles="-1" name="Loop_Place_Three">

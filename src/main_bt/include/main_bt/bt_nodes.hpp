@@ -251,7 +251,11 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return { BT::OutputPort<std::string>("task_order_out") };
+    return {
+      BT::OutputPort<std::string>("task_order_out"),
+      BT::OutputPort<std::string>("batch1_order_out"),
+      BT::OutputPort<std::string>("batch2_order_out")
+    };
   }
 
   BT::NodeStatus onStart() override;
