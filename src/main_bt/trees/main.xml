@@ -4,83 +4,134 @@
   <include path="subtrees/place_and_pick.xml"/>
 
   <BehaviorTree ID="Main">
-    <Fallback name="Main_With_ErrorHandling">
-      <Sequence name="Main_Flow">
-        <!-- 启动与初始化 -->
-        <Action ID="StartRobot"/>
-        <Action ID="InitAllConfigs"/>
+    <Sequence name="Main_Continue_On_Failure">
+      <!-- 启动与初始化 -->
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="StartRobot"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess><Action ID="InitAllConfigs"/></ForceSuccess>
 
-        <!-- 二维码区域 -->
-        <Action ID="GoQRCodeArea"/>
-        <Action ID="StartQRCodeVision"/>
-        <Action ID="WaitArriveQRCodeArea"/>
-        <Action ID="ScanQRCode"
-                task_order_out="{task_order_all}"
-                batch1_order_out="{batch1_order_str}"
-                batch2_order_out="{batch2_order_str}"/>
+      <!-- 二维码区域 -->
+      <ForceSuccess><Action ID="GoQRCodeArea"/></ForceSuccess>
+      <ForceSuccess><Action ID="StartQRCodeVision"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveQRCodeArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="ScanQRCode"
+                  task_order_out="{task_order_all}"
+                  batch1_order_out="{batch1_order_str}"
+                  batch2_order_out="{batch2_order_str}"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
         <Action ID="DisplayQRCode"
                 task_order_in="{task_order_all}"/>
+      </ForceSuccess>
 
-        <!-- 第一批：转盘 -> 粗加工 -> 暂存 -->
-        <Action ID="GoTurntableArea"/>
-        <Action ID="StartTurntableVision"/>
-        <Action ID="WaitArriveTurntableArea"/>
+      <!-- 第一批：转盘 -> 粗加工 -> 暂存 -->
+      <ForceSuccess><Action ID="GoTurntableArea"/></ForceSuccess>
+      <ForceSuccess><Action ID="StartTurntableVision"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveTurntableArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
         <SubTree ID="Turntable"
                  fix_pose="{fix_pose}"
                  task_order_str="{batch1_order_str}"/>
+      </ForceSuccess>
 
-        <Action ID="GoPlaceAndPickArea"/>
-        <Action ID="StopTurntableVision"/>
-        <Action ID="StartPlaceAndPickVision"/>
-        <Action ID="WaitArrivePlaceAndPickArea"/>
+      <ForceSuccess><Action ID="GoPlaceAndPickArea"/></ForceSuccess>
+      <ForceSuccess><Action ID="StopTurntableVision"/></ForceSuccess>
+      <ForceSuccess><Action ID="StartPlaceAndPickVision"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArrivePlaceAndPickArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
         <SubTree ID="PlaceAndPick"
                  fix_pose="{fix_pose}"
                  onboard_target="{onboard_target}"
                  task_order_str="{batch1_order_str}"/>
+      </ForceSuccess>
 
-        <Action ID="GoBufferArea"/>
-        <Action ID="StopPlaceAndPickVision"/>
-        <Action ID="StartBufferVision"/>
-        <Action ID="WaitArriveBufferArea"/>
+      <ForceSuccess><Action ID="GoBufferArea"/></ForceSuccess>
+      <ForceSuccess><Action ID="StopPlaceAndPickVision"/></ForceSuccess>
+      <ForceSuccess><Action ID="StartBufferVision"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveBufferArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
         <SubTree ID="Place"
                  fix_pose="{fix_pose}"
                  task_order_str="{batch1_order_str}"/>
+      </ForceSuccess>
 
-        <!-- 第二批：转盘 -> 粗加工 -> 暂存 -->
-        <Action ID="GoTurntableArea"/>
-        <Action ID="StopBufferVision"/>
-        <Action ID="StartTurntableVision"/>
-        <Action ID="WaitArriveTurntableArea"/>
+      <!-- 第二批：转盘 -> 粗加工 -> 暂存 -->
+      <ForceSuccess><Action ID="GoTurntableArea"/></ForceSuccess>
+      <ForceSuccess><Action ID="StopBufferVision"/></ForceSuccess>
+      <ForceSuccess><Action ID="StartTurntableVision"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveTurntableArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
         <SubTree ID="Turntable"
                  fix_pose="{fix_pose}"
                  task_order_str="{batch2_order_str}"/>
+      </ForceSuccess>
 
-        <Action ID="GoPlaceAndPickArea"/>
-        <Action ID="StopTurntableVision"/>
-        <Action ID="StartPlaceAndPickVision"/>
-        <Action ID="WaitArrivePlaceAndPickArea"/>
+      <ForceSuccess><Action ID="GoPlaceAndPickArea"/></ForceSuccess>
+      <ForceSuccess><Action ID="StopTurntableVision"/></ForceSuccess>
+      <ForceSuccess><Action ID="StartPlaceAndPickVision"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArrivePlaceAndPickArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
         <SubTree ID="PlaceAndPick"
                  fix_pose="{fix_pose}"
                  onboard_target="{onboard_target}"
                  task_order_str="{batch2_order_str}"/>
+      </ForceSuccess>
 
-        <Action ID="GoBufferArea"/>
-        <Action ID="StopPlaceAndPickVision"/>
-        <Action ID="StartBufferVision"/>
-        <Action ID="WaitArriveBufferArea"/>
+      <ForceSuccess><Action ID="GoBufferArea"/></ForceSuccess>
+      <ForceSuccess><Action ID="StopPlaceAndPickVision"/></ForceSuccess>
+      <ForceSuccess><Action ID="StartBufferVision"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveBufferArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess>
         <SubTree ID="Place"
                  fix_pose="{fix_pose}"
                  task_order_str="{batch2_order_str}"/>
+      </ForceSuccess>
 
-        <!-- 返回出发点 -->
-        <Action ID="GoStartArea"/>
-        <Action ID="WaitArriveStartArea"/>
-        <Action ID="StopBufferVision"/>
-      </Sequence>
+      <!-- 返回出发点 -->
+      <ForceSuccess><Action ID="GoStartArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveStartArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <ForceSuccess><Action ID="StopBufferVision"/></ForceSuccess>
 
-      <ForceFailure>
-        <Action ID="KillAllProcesses"/>
-      </ForceFailure>
-    </Fallback>
+      <!-- 统一收尾 -->
+      <Action ID="KillAllProcesses"/>
+    </Sequence>
   </BehaviorTree>
 </root>

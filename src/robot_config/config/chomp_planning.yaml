@@ -33,5 +33,5 @@ random_jump_amount: 1.0
 use_stochastic_descent: true
 enable_failure_recovery: true
 max_recovery_attempts: 20
-trajectory_initialization_method: "cubic-spline"
-# trajectory_initialization_method: "quintic-spline"
+#trajectory_initialization_method: "cubic-spline" 用不了
+trajectory_initialization_method: "quintic-spline"

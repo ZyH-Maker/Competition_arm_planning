@@ -18,6 +18,7 @@ def generate_launch_description():
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
+            {"tree_relpath": "trees/main.xml"},
             # 说明：BT/MoveIt 参数由节点内部默认值提供，避免重复声明
         ],
     )

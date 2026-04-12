@@ -40,24 +40,35 @@ int main(int argc, char** argv)
   exec.add_node(node);
   std::thread spin_thread([&](){ exec.spin(); });
 
+  auto get_or_declare = [&node](const std::string& name, const auto& default_value)
+  {
+    using T = std::decay_t<decltype(default_value)>;
+    if (node->has_parameter(name))
+    {
+      return node->get_parameter(name).get_value<T>();
+    }
+    return node->declare_parameter<T>(name, default_value);
+  };
+
   // 说明：从参数获取 MoveIt 组名
-  const std::string arm_group = node->declare_parameter<std::string>("arm_group", "arm");
-  const std::string gripper_group = node->declare_parameter<std::string>("gripper_group", "hand");
+  const std::string arm_group = get_or_declare("arm_group", std::string("arm"));
+  const std::string gripper_group = get_or_declare("gripper_group", std::string("hand"));
 
   // 说明：是否启用可视化与插值密度
-  const bool enable_visualization = node->declare_parameter<bool>("enable_visualization", true);
-  const int interpolation_segments =
-    node->declare_parameter<int>("interpolation_segments", 10);
+  const bool enable_visualization = get_or_declare("enable_visualization", false);
+  const int interpolation_segments = get_or_declare("interpolation_segments", 10);
+  const std::string tree_relpath =
+    get_or_declare("tree_relpath", std::string("trees/main.xml"));
 
   // 说明：视觉进程启动命令（为空则对应 Start*Vision 失败）
   const std::string qrcode_vision_cmd =
-    node->declare_parameter<std::string>("qrcode_vision_cmd", "/home/fins/Vision/build/Bin/Qr");
+    get_or_declare("qrcode_vision_cmd", std::string("/home/fins/Vision/build/Bin/Qr"));
   const std::string turntable_vision_cmd =
-    node->declare_parameter<std::string>("turntable_vision_cmd", "/home/fins/Vision/build/Bin/Detect_P");
+    get_or_declare("turntable_vision_cmd", std::string("/home/fins/Vision/build/Bin/Detect_P"));
   const std::string place_and_pick_vision_cmd =
-    node->declare_parameter<std::string>("place_and_pick_vision_cmd", "/home/fins/Vision/build/Bin/Detect2");
+    get_or_declare("place_and_pick_vision_cmd", std::string("/home/fins/Vision/build/Bin/Detect2"));
   const std::string buffer_vision_cmd =
-    node->declare_parameter<std::string>("buffer_vision_cmd", "/home/fins/Vision/build/Bin/Detect");
+    get_or_declare("buffer_vision_cmd", std::string("/home/fins/Vision/build/Bin/Detect"));
 
   // 说明：创建 MoveIt 控制接口
   moveit::planning_interface::MoveGroupInterface arm(node, arm_group);
@@ -156,7 +167,7 @@ int main(int argc, char** argv)
   // 说明：加载 XML 主行为树文件
   const auto share_dir = ament_index_cpp::get_package_share_directory("main_bt");
   const auto xml_file =
-    (std::filesystem::path(share_dir) / "trees" / "main.xml").string();
+    (std::filesystem::path(share_dir) / tree_relpath).string();
 
   auto tree = factory.createTreeFromFile(xml_file);
 

@@ -127,7 +127,7 @@ target_link_libraries(bt_runner
 # 测试轨迹录制/回放
 # ==============================
 add_executable(test_trajectory
-  src/test.cpp
+  test/test.cpp
 )
 ament_target_dependencies(test_trajectory
   rclcpp
@@ -142,12 +142,27 @@ target_link_libraries(test_trajectory
   grasp_lib
 )
 
+add_executable(test_bt_runner
+  test/test_bt_runner.cpp
+)
+ament_target_dependencies(test_bt_runner
+  rclcpp
+  behaviortree_cpp
+  ament_index_cpp
+  moveit_ros_planning_interface
+  moveit_visual_tools
+)
+target_link_libraries(test_bt_runner
+  bt_nodes_lib
+)
+
 # ==============================
 # 安装规则
 # ==============================
 install(
   TARGETS
     bt_runner
+    test_bt_runner
     test_trajectory
     bt_nodes_lib
     grasp_lib
@@ -169,6 +184,11 @@ install(
 
 install(
   DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY test
   DESTINATION share/${PROJECT_NAME}
 )
 

@@ -5,7 +5,7 @@ request_adapters: >-
   default_planner_request_adapters/FixStartStateBounds
   default_planner_request_adapters/FixStartStateCollision
   default_planner_request_adapters/FixStartStatePathConstraints
-  default_planner_request_adapters/CHOMPOptimizerAdapter
+  chomp/OptimizerAdapter
   default_planner_request_adapters/AddTimeOptimalParameterization
 start_state_max_bounds_error: 0.1
 planner_configs:

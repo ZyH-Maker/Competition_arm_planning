@@ -1,0 +1,81 @@
+<root BTCPP_format="4" main_tree_to_execute="SerialCommTest">
+  <BehaviorTree ID="SerialCommTest">
+    <Sequence name="Serial_Comm_Test">
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="StartRobot"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="InitAllConfigs"/>
+
+      <ForceSuccess><Action ID="GoTurntableArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveTurntableArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="OpenGripper"/>
+      <Action ID="CloseGripper"/>
+      <Action ID="RotateTurntable"/>
+      <Action ID="OpenGripper"/>
+      <Action ID="CloseGripper"/>
+
+      <ForceSuccess><Action ID="GoPlaceAndPickArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArrivePlaceAndPickArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="OpenGripper"/>
+      <Action ID="CloseGripper"/>
+      <Action ID="RotateTurntable"/>
+      <Action ID="OpenGripper"/>
+      <Action ID="CloseGripper"/>
+
+      <ForceSuccess><Action ID="GoBufferArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveBufferArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="OpenGripper"/>
+      <Action ID="CloseGripper"/>
+      <Action ID="RotateTurntable"/>
+      <Action ID="OpenGripper"/>
+      <Action ID="CloseGripper"/>
+
+      <ForceSuccess><Action ID="GoTurntableArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveTurntableArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="RotateTurntable"/>
+
+      <ForceSuccess><Action ID="GoPlaceAndPickArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArrivePlaceAndPickArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="OpenGripper"/>
+      <Action ID="CloseGripper"/>
+
+      <ForceSuccess><Action ID="GoBufferArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveBufferArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="RotateTurntable"/>
+
+      <ForceSuccess><Action ID="GoStartArea"/></ForceSuccess>
+      <ForceSuccess>
+        <Timeout msec="60000">
+          <Action ID="WaitArriveStartArea"/>
+        </Timeout>
+      </ForceSuccess>
+      <Action ID="KillAllProcesses"/>
+    </Sequence>
+  </BehaviorTree>
+</root>

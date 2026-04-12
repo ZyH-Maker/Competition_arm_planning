@@ -24,3 +24,4 @@ open_terminal() {
 open_terminal "ros2 launch robot_config demo.launch.py"
 open_terminal "ros2 run vision_node circle_server"
 open_terminal "ros2 launch main_bt main.launch.py"
+open_terminal "ros2 run robot_serial serial_service_node"
