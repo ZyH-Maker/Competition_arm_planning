@@ -33,6 +33,7 @@
   <!-- Launch 依赖（用于启动文件） -->
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
   <exec_depend>moveit_configs_utils</exec_depend>
 
   <export>

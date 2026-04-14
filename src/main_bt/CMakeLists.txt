@@ -156,6 +156,22 @@ target_link_libraries(test_bt_runner
   bt_nodes_lib
 )
 
+add_executable(record_target_transform
+  test/record_target_transform.cpp
+)
+ament_target_dependencies(record_target_transform
+  rclcpp
+  std_msgs
+  geometry_msgs
+  shape_msgs
+  moveit_ros_planning_interface
+  moveit_msgs
+  moveit_core
+)
+target_link_libraries(record_target_transform
+  grasp_lib
+)
+
 # ==============================
 # 安装规则
 # ==============================
@@ -164,6 +180,7 @@ install(
     bt_runner
     test_bt_runner
     test_trajectory
+    record_target_transform
     bt_nodes_lib
     grasp_lib
     trajectory_interpolator_lib
